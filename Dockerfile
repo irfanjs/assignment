@@ -18,6 +18,6 @@ RUN echo "$PATH"
 
 RUN rm -f /tmp/jdk-8-linux-x64.rpm; yum -y remove wget; yum -y clean all
 
-COPY target/gs-handling-form-submission-0.1.0.jar /tmp/gs-handling-form-submission-0.1.0.jar
+COPY target/assignment-0.0.1-SNAPSHOT.jar /tmp/assignment-0.0.1-SNAPSHOT.jar
 
-CMD [ "java", "-jar", "/tmp/gs-handling-form-submission-0.1.0.jar" ]
+CMD [ "java", "-jar", "/tmp/assignment-0.0.1-SNAPSHOT.jar" ]
