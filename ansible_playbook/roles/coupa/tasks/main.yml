@@ -68,4 +68,52 @@
     service:
       name: nginx
       state: started
+
+  - name: check jar file is available
+    stat: path=/opt/assignment-0.0.1-SNAPSHOT.jar
+    register: assignment_jar_path
+
+
+  - name: copy the jar file 
+    copy:
+      src: assignment-0.0.1-SNAPSHOT.jar 
+      dest: /opt/assignment-0.0.1-SNAPSHOT.jar
+      owner: root
+      group: root
+      mode: 0644
+    when: assignment_jar_path.stat.exists == False
+
+  - name: check template file is available
+    stat: path=/etc/systemd/system/coupa.service
+    register: template_service_path
+  
+  - name: check nginx conf is available
+    stat: path=/etc/nginx/conf.d/coupa.conf
+    register: nginx_conf_path
+
+
+  - name: template the file 
+    template:
+         src: coupa.service
+         dest: /etc/systemd/system/coupa.service
+         owner: root
+         group: root
+         mode: "u=rwx,g=rwx,o=r"
+    when: template_service_path.stat.exists == False 
+
+  - name: copy the nginx configuration 
+    template:
+         src: coupa.conf
+         dest: /etc/nginx/conf.d/coupa.conf
+         owner: root
+         group: root
+         mode: "u=rwx,g=rwx,o=r"
+    notify: 
+      - ReStart Nginx
+
+  - name: start the coupa web service 
+    service:
+      name: coupa
+      state: started
+
     

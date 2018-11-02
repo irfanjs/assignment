@@ -1,0 +1,15 @@
+[Unit]
+Description=Spring Boot coupa web application
+After=syslog.target
+After=network.target[Service]
+
+[Service]
+ExecStart=/bin/java -jar /opt/assignment-0.0.1-SNAPSHOT.jar
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=coupa
+
+[Install]
+WantedBy=multi-user.target
+
