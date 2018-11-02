@@ -1,0 +1,71 @@
+---
+
+  - name: check wget installed or not
+    stat: path=/bin/wget
+    register: wget_path
+
+  
+  - name: install the latest version of wget
+    yum:
+      name: wget
+      state: latest
+    when: wget_path.stat.exists == False
+
+  - name: Check epel release repo is available
+    stat: path=/etc/yum.repos.d/epel.repo
+    register: epel_path
+
+
+  - name: Download epel release repository
+    command: "wget https://rpmfind.net/linux/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm"
+    args:
+      chdir: /tmp/
+    when: epel_path.stat.exists == False
+
+  - name: Install epel yum repo 
+    command: "rpm -ivh /tmp/epel-release-7-11.noarch.rpm"
+    when: epel_path.stat.exists == False
+  
+  
+  - name: register JDK path
+    stat: path=/opt/jdk1.8.0_191
+    register: jdk_path
+
+  - name: register Java archive
+    stat: path={{java_archive}}
+    register: java_archive_path
+
+
+  - name: Download Java
+    command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
+    when: jdk_path.stat.exists == False
+
+  - name: Unpack archive
+    command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
+    when: jdk_path.stat.exists == False
+
+  - name: Fix ownership
+    file: state=directory path={{java_name}} owner=root group=root recurse=yes
+
+  - name: Make Java available for system
+    command: 'alternatives --install "/usr/bin/java" "java" "{{java_name}}/bin/java" 2000'
+
+  - name: Clean up
+    file: state=absent path={{java_archive}}
+    when: java_archive_path.stat.exists == True
+
+  - name: Check nginx is installed
+    stat: path=/sbin/nginx
+    register: nginx_path
+
+
+  - name: ensure nginx is at the latest version
+    command: "yum install nginx -y"
+    when: nginx_path.stat.exists == False
+    
+    
+  - name: start nginx
+    service:
+      name: nginx
+      state: started
+    
