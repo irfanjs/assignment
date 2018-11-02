@@ -1,14 +1,17 @@
 # Project Title
 
-One Paragraph of project description goes here
+Assignment which will have the web application running behind the nginx load balanacer and manage the configuration using Ansible. Dockerfile will be used to deploy the image using docker container 
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+The source code is java based source and uses maven to build. spring boot framework is used to develop the application. it has been tested with Centos 7
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+JAVA 1.8
+Maven 3.x 
+Ansible 
+Docker 
+Nginx
 
 ```
 Give examples
