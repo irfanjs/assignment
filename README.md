@@ -1,6 +1,8 @@
 # Project Title
 
-Assignment which will have the web application running behind the nginx load balanacer and manage the configuration using Ansible. Dockerfile will be used to deploy the image using docker container 
+Assignment which will have the web application running behind the nginx load balanacer. Dockerfile will be used to deploy the image using docker container and docker-compose will be used to maintain the multi-container apps.
+Ansible playbook is also checked-in to the repository but is not required for this use case.  
+
 
 ## Getting Started
 The source code is java based source and uses maven to build. spring boot framework is used to develop the application. it has been tested with Centos 7
@@ -8,83 +10,32 @@ The source code is java based source and uses maven to build. spring boot framew
 ### Prerequisites
 
 JAVA 1.8
+
 Maven 3.x 
+
 Ansible 
+
 Docker 
+
 Nginx
 
-```
-Give examples
-```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
 ```
-Give the example
-```
+1: Install two linux machine (better centos 7 would be fine)
+2: install java, maven, docker, docker-compose 
+3: Build the application using following command:
+      mvn clean package 
+4: application jar file will be created in the target folder. BTW, target folder is already checked in this repo.
+5: dockerfile is created for application and nginx as well 
+6: build the docker images using following command 
+                      docker build --no-cache -f Dockerfile -t coupa:latest .
+                      docker build --no-cache -f Dockerfile-nginx -t nginx:latest .
+7: run the docker-compose up command to access the application at : http://<ip-address>:8080
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+0.0.1-SNAPSHOT
 
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
