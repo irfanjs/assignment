@@ -44,6 +44,7 @@ ansible playbook does follwoing tasks :
 3: setup nginx web server and configures it
 4: run the sample application as service 
 5: configures the nginx to work as load balancer 
+6: run the command : ansible-playbook -i dev site.yml
 
 ```
 ## Versioning
